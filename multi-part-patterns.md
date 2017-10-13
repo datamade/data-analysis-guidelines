@@ -1,4 +1,4 @@
-# 🔢 Data analysis 201
+# 🔢 Data analysis 201 - Putting it all together
 
 ## Patterns for multi-part analysis
 
@@ -19,3 +19,5 @@
 ├── requirements.txt
 └── Makefile
 ```
+
+## Producing output in different formats
