@@ -19,14 +19,14 @@ Namely, data analysis should:
 
 ## Guides
 
-- [Data analysis 001](/setup.md) - Setup
+- **[Data analysis 001](/setup.md) - Setup**
   - Setting up your environment
   - Organizing your analysis
-- [Data analysis 101](/using-the-toolkit.md) - Standard toolkit
+- **[Data analysis 101](/using-the-toolkit.md) - Standard toolkit**
   - Introduction to `pweave`
   - Introduction to `pandas`
   - Introduction to `LaTeX`
-- [Data analysis 201](/multi-part-patterns.md) - Putting it all together
+- **[Data analysis 201](/multi-part-patterns.md) - Putting it all together**
   - Patterns for multi-part analysis
   - Producing output in different formats
 
