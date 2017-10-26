@@ -4,7 +4,7 @@
   - [Install `pweave`](#install-pweave)
   - [Configure Atom](#configure-atom)
   - [Install LaTeX](#install-latex)
-- [Organizing your analysis](#organizing-your-analysisa)
+- [Organizing your analysis](#organizing-your-analysis)
 
 ## Setting up your environment
 
@@ -75,7 +75,7 @@ activating your virtual environment_.
 LaTeX is essentially a document formatting markup language. Skip the muss
 and fuss and licenses of popular GUI software. You, too, can produce beautiful
 documents with only a few inline tags (think HTML) and useful macros (think
-templating engines, like Jinja.
+templating engines, like Jinja).
 
 Installation is well-trodden ground. Follow the appropriate link for your
 operating system:
