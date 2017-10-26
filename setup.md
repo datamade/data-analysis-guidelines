@@ -51,21 +51,44 @@ to that configuration.
 
 A few amendments to the above walkthrough:
 
-- Skip installing `expand-region`. Don't edit your `config.cson`, and don't add
-`'cmd-shift-space': 'expand-region:expand'` to `keymap.cson`. We won't be
-setting off code blocks in back ticks, and haven't found an alternative way to
-configure `expand-region` to select code blocks in `noweb` syntax. Use
-shift + up or shift + down to highlight your code block as necessary, then
-shift + enter to run them.
+- Skip installing `expand-region`, and don't edit your `config.cson`. Don't add
+`'cmd-shift-space': 'expand-region:expand'` to `keymap.cson`, either. Instead,
+append the following to `keymap.cson`:
+
+    ```
+    'cmd-enter': 'hydrogen:run'
+    'shift-enter': 'hydrogen:run-cell'
+    ```
+
+    As you might suspect, you can now run the selected line of code with
+    `command + enter`, or run the selected cell with `shift + enter`.
+
 - In the Hydrogen Kernel Mappings, specify `{'pweave markdown': 'Python 3'}`
 rather than Python 2.
 
+And a point bears repeating: If you are employing virtual environments (and
+you should!), you must open Atom from the command line with `atom .` _after
+activating your virtual environment_.
+
 ### Install LaTeX
+
+LaTeX is essentially a document formatting markup language. Skip the muss
+and fuss and licenses of popular GUI software. You, too, can produce beautiful
+documents with only a few inline tags (think HTML) and useful macros (think
+templating engines, like Jinja.
+
+Installation is well-trodden ground. Follow the appropriate link for your
+operating system:
 
 - [GNU/Linux & Windows](http://www.tug.org/texlive/)
 - [OS X](www.tug.org/mactex/)
 
 ## Organizing your analysis
+
+Data making and analysis may live in the same repository, or an analysis
+repository [may list a data making repository as a submodule](https://github.com/City-Bureau/chicago-lead).
+
+Either way, analysis files should generally be organized as follows:
 
 ```
 ├── README.md - instructions for making your data and analysis
