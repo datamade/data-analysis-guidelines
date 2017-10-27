@@ -2,7 +2,7 @@ report.pdf : report.tex
 	cd examples/analyses && pdflatex $<
 
 report.tex : report.ptexw pandas.tex
-	pweave -f tex $<
+	pweave $<
 
 pandas.tex : pandas.mdw
 	pweave -f tex $<
