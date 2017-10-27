@@ -1,0 +1,10 @@
+\documentclass{article}
+\usepackage{graphicx}
+\title{TEX FOR TECH}
+\author{DataMade}
+
+\begin{document}
+
+\include{pandas}
+
+\end{document}

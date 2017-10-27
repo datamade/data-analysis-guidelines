@@ -1,0 +1,20 @@
+<< python, echo = False >>=
+import pweave
+
+pweave.rcParams["chunk"]["defaultoptions"].update({
+    'results' : 'raw',
+    'echo': False,
+    'figfmt': '.pdf',
+})
+@
+
+Here is my plot!
+
+<<>>=
+import pandas as pd
+
+df = pd.DataFrame([(1, 3, 5), (1, 5, 7)], columns=['a', 'b', 'c'])
+_ = df.plot(title='This is a plot')
+@
+
+This has been a plot.

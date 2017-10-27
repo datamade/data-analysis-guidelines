@@ -31,6 +31,7 @@
 
 ## Introduction to `LaTeX`
 
+  - [DataMade styles](https://github.com/datamade/datamade-latex) (private repo)
   - Markup
     - `\documentclass`
     - `\title`
