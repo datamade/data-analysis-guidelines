@@ -4,5 +4,5 @@ report.pdf : report.tex
 report.tex : report.ptexw pandas.tex
 	pweave $<
 
-pandas.tex : pandas.mdw
+pandas.tex : pandas.mdw data
 	pweave -f tex $<
