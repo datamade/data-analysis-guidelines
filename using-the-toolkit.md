@@ -491,14 +491,6 @@ http://wesmckinney.com/blog/groupby-fu-improvements-in-grouping-and-aggregating-
 ### Plotting
 
 
-```python
-ax = working_table.plot(
-    title='Wifi Sessions at Chicago Public Libraries',
-    y=['number_of_sessions', 'cumulative_number_of_sessions']
-)
-```
-
-![](examples/figures/pandas_figure22_1.png)\
 
 ## Introduction to `LaTeX`
 
