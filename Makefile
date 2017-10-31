@@ -1,6 +1,6 @@
 MAKEFLAGS += --warn-undefined-variables
 SHELL := bash
-VPATH = examples examples/analyses
+VPATH = examples examples/data examples/analyses
 .SHELLFLAGS := -eu -o pipefail
 .DEFAULT_GOAL := all
 
@@ -8,25 +8,28 @@ PG_DB=libraries
 
 .PHONY : all data clean
 
-.INTERMEDIATE : library-data.csv.tmp
+.INTERMEDIATE : cpl-wifi.csv.tmp
 
-data : libraries.table examples/library-data.csv
+data : wifi.table cpl-wifi.csv
 all : report.pdf
 clean :
 	dropdb $(PG_DB)
+	rm *.table *.database examples/data/*
 
 $(PG_DB).database :
 	createdb $(basename $@); \
 	touch $@
 
-libraries.table : library-data.csv $(PG_DB).database
-	csvsql --db postgresql:///$(PG_DB) --insert --table $(basename $@) $<; \
+wifi.table : cpl-wifi.csv $(PG_DB).database
+	csvsql --no-inference --db postgresql:///$(PG_DB) --insert --table $(basename $@) $<; \
+	psql $(basename $(word 2, $^)) -c " \
+	  alter table $(basename $@) \
+	    alter column cumulative_number_of_sessions type integer USING CAST(cumulative_number_of_sessions AS integer), \
+		alter column number_of_sessions type integer USING CAST(number_of_sessions AS integer), \
+		alter column year type integer USING CAST(year AS integer)"; \
 	touch $@
 
-examples/library-data.csv : library-data.csv.tmp
-	csvcut -C 1,2,3,4,5 $< > $@
-
-library-data.csv.tmp :
-	wget --no-use-server-timestamps -O $@ https://data.cityofchicago.org/resource/psqp-6rmg.csv
+examples/data/cpl-wifi.csv :
+	wget --no-use-server-timestamps -O $@ https://data.cityofchicago.org/resource/cxkd-f8x2.csv
 
 include examples/LaTeX.mk

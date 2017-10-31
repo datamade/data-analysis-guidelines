@@ -1,12 +1,200 @@
 << python, echo = False >>=
+# NOTE: pd is essentially canonical shorthand for pandas
 import pandas as pd
-import requests
+from sqlalchemy import create_engine
+
+DB_OPTS = dict(
+    user='postgres',
+    host='localhost',
+    pw='',
+    port=5432,
+    name='libraries'
+)
+
+DB_FMT = 'postgresql://{user}:{pw}@{host}:{port}/{name}'
+DB_CONN = DB_FMT.format(**DB_OPTS)
+
+engine = create_engine(DB_CONN)
+conn = engine.connect()
 @
 
-### Reading data
+### DataFrames
 
-`pandas` provides really useful convenienience functions for reading data.
+`pandas` provides really useful convenienience functions for reading data
+into their fundamental data type, the [`DataFrame`](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html).
+
+For CSV files, use [`pandas.read_csv`](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html).
 
 <<>>=
-df = pd.read_csv('examples/school-data.csv')
+csv = pd.read_csv('examples/data/cpl-wifi.csv')
+@
+
+If you've got a database, [`pandas.read_sql`](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_sql.html)
+accepts a table name or SQL query and a database connection, and returns the
+table data or query result as a DataFrame.
+
+<<>>=
+table = pd.read_sql('wifi', conn)
+@
+
+Sneak a peek at your data with `head`...
+
+<<>>=
+csv.head()
+@
+
+...and/or `tail`.
+
+<<>>=
+table.tail()
+@
+
+Inherited a file or database with horrid column names? Rename them by setting
+`DataFrame.columns` equal to a list of new labels for each column...
+
+<< evaluate = False >>=
+# Given a DataFrame with columns ['This is a horrible col', 'Here is more BAD DATA!!!', 'FOIA AWAY']
+df.columns = ['good_column', 'better_column', 'best_column']
+@
+
+...or change a few particularly egregious columns with [`DataFrame.rename`](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.rename.html#pandas.DataFrame.rename).
+
+<< evaluate = False >>=
+df.rename({'The WORST COLUnnfdm OF ever time': 'sensible_column'}, inplace=True)
+@
+
+### Selecting data
+
+Select a column or columns with a column name...
+
+<<>>=
+table['cumulative_number_of_sessions'].head()
+@
+
+...or array of column names.
+
+<<>>=
+table[['month', 'year', 'number_of_sessions']].head()
+@
+
+You can use `DataFrame.loc` to select rows meeting a given condition...
+
+<<>>=
+table.loc[table['number_of_sessions'] > 200000].head()
+@
+
+...or you can give your DataFrame a custom index...
+
+<<>>=
+# Note that indices need not be unique nor numeric!
+indexed_table = table.set_index('month')
+indexed_table.head(3)
+@
+
+...then use `DataFrame.loc` to select rows with the given index value...
+
+<<>>=
+indexed_table.loc['January']
+@
+
+...or to select attributes with the given index value and a column name.
+
+<<>>=
+indexed_table.loc['February', 'cumulative_number_of_sessions']
+@
+
+For positional indexing, there's `DataFrame.iloc`. Pass in a single integer
+or a slice to get the corresponding rows...
+
+<<>>=
+table.iloc[:5]
+@
+
+...and key notation to select attributes.
+
+<<>>=
+table.iloc[:5]['number_of_sessions']
+@
+
+### Summary statistics
+
+<<>>=
+table['number_of_sessions'].describe()
+@
+
+<<>>=
+table['year'].value_counts()
+@
+
+### Transformations
+
+Calculated columns are useful and easy! Operate on multiple columns...
+
+<<>>=
+working_table = table.copy()
+working_table['pct_total_to_date'] = working_table['number_of_sessions'] / working_table['cumulative_number_of_sessions']
+working_table.head()
+@
+
+...`apply` lambda functions...
+
+<<>>=
+average = working_table['number_of_sessions'].mean()
+working_table['above_average'] = working_table['number_of_sessions'].apply(lambda x: x > average)
+working_table.iloc[25:30]
+@
+
+...or `map` dictionaries for simple calculated or categorical fields.
+
+<<>>=
+seasons = {
+    'January': 'Winter',
+    'February': 'Winter',
+    'March': 'Spring',
+    'April': 'Spring',
+    'May': 'Spring',
+    'June': 'Summer',
+    'July': 'Summer',
+    'August': 'Summer',
+    'September': 'Fall',
+    'October': 'Fall',
+    'November': 'Fall',
+    'December': 'Winter'
+}
+
+working_table['season'] = working_table['month'].map(seasons)
+
+working_table.head(12)
+@
+
+Have something a bit more involved? Iterate over your `DataFrame` with `iterrows`.
+Note that each iterated row is a tuple containing an index value and the row attributes,
+accessible via key notation.
+
+<<>>=
+previous_year = None
+pct_change = []
+
+for idx, row in working_table.iterrows():
+    current_year = row['number_of_sessions']
+    if previous_year:
+        pct_change.append((current_year - previous_year) / previous_year)
+    else:
+        pct_change.append(None)
+    previous_year = current_year
+
+working_table['pct_change'] = pct_change
+@
+
+### Aggregate functions
+
+http://wesmckinney.com/blog/groupby-fu-improvements-in-grouping-and-aggregating-data-in-pandas/
+
+### Plotting
+
+<<>>=
+ax = working_table.plot(
+    title='Wifi Sessions at Chicago Public Libraries',
+    y=['number_of_sessions', 'cumulative_number_of_sessions']
+)
 @
