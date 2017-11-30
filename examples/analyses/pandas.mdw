@@ -1,7 +1,13 @@
 << python, echo = False >>=
+import pweave
+pweave.rcParams["chunk"]["defaultoptions"].update({
+    'wrap': False,
+})
+
 # NOTE: pd is essentially canonical shorthand for pandas
 import pandas as pd
 from sqlalchemy import create_engine
+from tabulate import tabulate
 
 DB_OPTS = dict(
     user='postgres',
@@ -16,6 +22,9 @@ DB_CONN = DB_FMT.format(**DB_OPTS)
 
 engine = create_engine(DB_CONN)
 conn = engine.connect()
+
+def show(df, **kwargs):
+    print(tabulate(df, headers=df, tablefmt='pipe', **kwargs))
 @
 
 ### DataFrames
@@ -39,14 +48,14 @@ table = pd.read_sql('wifi', conn)
 
 Sneak a peek at your data with `head`...
 
-<<>>=
-csv.head()
+<< results = 'markdown' >>=
+show(csv.head())
 @
 
 ...and/or `tail`.
 
-<<>>=
-table.tail()
+<< results = 'markdown' >>=
+show(table.tail())
 @
 
 Inherited a file or database with horrid column names? Rename them by setting
@@ -73,28 +82,28 @@ table['cumulative_number_of_sessions'].head()
 
 ...or array of column names.
 
-<<>>=
-table[['month', 'year', 'number_of_sessions']].head()
+<< results = 'markdown' >>=
+show(table[['month', 'year', 'number_of_sessions']].head())
 @
 
 You can use `DataFrame.loc` to select rows meeting a given condition...
 
-<<>>=
-table.loc[table['number_of_sessions'] > 200000].head()
+<< results = 'markdown' >>=
+show(table.loc[table['number_of_sessions'] > 200000].head())
 @
 
 ...or you can give your DataFrame a custom index...
 
-<<>>=
+<< results = 'markdown' >>=
 # Note that indices need not be unique nor numeric!
 indexed_table = table.set_index('month')
-indexed_table.head(3)
+show(indexed_table.head(3))
 @
 
 ...then use `DataFrame.loc` to select rows with the given index value...
 
-<<>>=
-indexed_table.loc['January']
+<< results = 'markdown' >>=
+show(indexed_table.loc['January'])
 @
 
 ...or to select attributes with the given index value and a column name.
@@ -106,8 +115,8 @@ indexed_table.loc['February', 'cumulative_number_of_sessions']
 For positional indexing, there's `DataFrame.iloc`. Pass in a single integer
 or a slice to get the corresponding rows...
 
-<<>>=
-table.iloc[:5]
+<< results = 'markdown' >>=
+show(table.iloc[:5])
 @
 
 ...and key notation to select attributes.
@@ -130,23 +139,23 @@ table['year'].value_counts()
 
 Calculated columns are useful and easy! Operate on multiple columns...
 
-<<>>=
+<< results = 'markdown' >>=
 working_table = table.copy()
 working_table['pct_total_to_date'] = working_table['number_of_sessions'] / working_table['cumulative_number_of_sessions']
-working_table.head()
+show(working_table.head())
 @
 
 ...`apply` lambda functions...
 
-<<>>=
+<< results = 'markdown' >>=
 average = working_table['number_of_sessions'].mean()
 working_table['above_average'] = working_table['number_of_sessions'].apply(lambda x: x > average)
-working_table.iloc[25:30]
+show(working_table.iloc[25:30])
 @
 
 ...or `map` dictionaries for simple calculated or categorical fields.
 
-<<>>=
+<< results = 'markdown' >>=
 seasons = {
     'January': 'Winter',
     'February': 'Winter',
@@ -164,7 +173,7 @@ seasons = {
 
 working_table['season'] = working_table['month'].map(seasons)
 
-working_table.head(12)
+show(working_table.head(12))
 @
 
 Have something a bit more involved? Iterate over your `DataFrame` with `iterrows`.
