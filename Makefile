@@ -32,4 +32,7 @@ wifi.table : cpl-wifi.csv $(PG_DB).database
 examples/data/cpl-wifi.csv :
 	wget --no-use-server-timestamps -O $@ https://data.cityofchicago.org/resource/cxkd-f8x2.csv
 
+appendix_b-pandas.md : data pandas.mdw
+	pweave --output=$@ $(word 2, $^)
+
 include examples/LaTeX.mk

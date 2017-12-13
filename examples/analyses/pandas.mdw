@@ -1,14 +1,26 @@
-<< python, echo = False >>=
+# Appendix B - `pandas`
+
+Unfamiliar with data analysis in Python? Here's a crash course in `pandas`,
+[the preeminent Python library for data munging](http://pandas.pydata.org/).
+
+This appendix was written in Pweave markdown. You can view the source [over in
+`examples/`](examples/analyses/pandas.mdw), and the command for compiling to
+markdown [in the Makefile](Makefile).
+
+<< python >>=
 import pweave
+
+# Allow long lines in code chunks
 pweave.rcParams["chunk"]["defaultoptions"].update({
     'wrap': False,
 })
 
-# NOTE: pd is essentially canonical shorthand for pandas
-import pandas as pd
-from sqlalchemy import create_engine
+import pandas as pd  # pd is canonical shorthand for pandas
 from tabulate import tabulate
 
+from sqlalchemy import create_engine
+
+# Connect to our example database (built in the Makefile)
 DB_OPTS = dict(
     user='postgres',
     host='localhost',
@@ -22,12 +34,9 @@ DB_CONN = DB_FMT.format(**DB_OPTS)
 
 engine = create_engine(DB_CONN)
 conn = engine.connect()
-
-def show(df, **kwargs):
-    print(tabulate(df, headers=df, tablefmt='pipe', **kwargs))
 @
 
-### DataFrames
+## DataFrames
 
 `pandas` provides really useful convenienience functions for reading data
 into their fundamental data type, the [`DataFrame`](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html).
@@ -49,6 +58,13 @@ table = pd.read_sql('wifi', conn)
 Sneak a peek at your data with `head`...
 
 << results = 'markdown' >>=
+def show(df, **kwargs):
+    '''tabulate is a Python library that prints tabular data, like DataFrames,
+    in the format of your choosing. This function will print to Markdown
+    tables; but you can also choose LaTeX or HTML, depending on your output!
+    '''
+    print(tabulate(df, headers=df, tablefmt='pipe', **kwargs))
+
 show(csv.head())
 @
 
@@ -72,7 +88,7 @@ df.columns = ['good_column', 'better_column', 'best_column']
 df.rename({'The WORST COLUnnfdm OF ever time': 'sensible_column'}, inplace=True)
 @
 
-### Selecting data
+## Selecting data
 
 Select a column or columns with a column name...
 
@@ -125,7 +141,7 @@ show(table.iloc[:5])
 table.iloc[:5]['number_of_sessions']
 @
 
-### Summary statistics
+## Summary statistics
 
 <<>>=
 table['number_of_sessions'].describe()
@@ -135,7 +151,7 @@ table['number_of_sessions'].describe()
 table['year'].value_counts()
 @
 
-### Transformations
+## Transformations
 
 Calculated columns are useful and easy! Operate on multiple columns...
 
@@ -195,11 +211,11 @@ for idx, row in working_table.iterrows():
 working_table['pct_change'] = pct_change
 @
 
-### Aggregate functions
+## Aggregate functions
 
 http://wesmckinney.com/blog/groupby-fu-improvements-in-grouping-and-aggregating-data-in-pandas/
 
-### Plotting
+## Plotting
 
 <<>>=
 ax = working_table.plot(
