@@ -24,11 +24,11 @@ Namely, data analysis should:
   - Organizing your analysis
 - **[Data analysis 101](/using-the-toolkit.md) - Standard toolkit**
   - Introduction to `pweave`
-  - Introduction to `pandas`
-  - Introduction to `LaTeX`
 - **[Data analysis 201](/multi-part-patterns.md) - Putting it all together**
   - Patterns for multi-part analysis
   - Producing output in different formats
+- **[Appendix A](/appendix_a-latex.md) - LaTeX**
+- **[Appendix B](/appendix_b-pandas.md) - pandas**
 
 ## Examples
 
