@@ -49,26 +49,46 @@ The bad news is that this environment still requires some configuration. The
 good news is that one Denver data scientist [wrote an excellent guide](http://protips.maxmasnick.com/literate-python-setup-with-pweave-and-atom)
 to that configuration.
 
-A few amendments to the above walkthrough:
+We present that guide, with a few choice amendments, here:
 
-- Skip installing `expand-region`, and don't edit your `config.cson`. Don't add
-`'cmd-shift-space': 'expand-region:expand'` to `keymap.cson`, either. Instead,
-append the following to `keymap.cson`:
+1. Install [Atom](http://atom.io/).
+2. If you haven't already, [install `virtualenvwrapper`](https://virtualenvwrapper.readthedocs.io/en/latest/install.html#basic-installation).
+3. Create or activate the virtualenv you'll use for your project, then
 
+    ```bash
+    pip install ipython ipykernel
+    python -m ipykernel install --user
     ```
-    'cmd-enter': 'hydrogen:run'
-    'shift-enter': 'hydrogen:run-cell'
+4. Install these Atom packages:
+    - [`hydrogen`](https://atom.io/packages/Hydrogen) – provides inline execution of Python code
+    - [`language-weave`](https://atom.io/packages/language-weave) – adds Pweave input files to languages recognized by Atom, and provides syntax highlighting
+5. Open your Atom preferences. In the left pane, select "Packages", then search for "Hydrogen" and click "Settings".
+    - Under "Language Mappings", add `{"Pweave markdown": "Python 3", "Pweave LaTeX": "Python 3"}`. This lets Hydrogen know there are Python code blocks in in `.pmd` and `.ptexw` files.
+    - Under "Startup Code", add `{"Python3 ": "\nimport matplotlib\n%matplotlib inline"}`. This tells matplotlib figures to appear in the output when you run a code cell.
+6. In the left pane of the Preferences window, click the "Open Config Folder" button to open your Atom configuration files.
+    - In `styles.less`, add:
+
+    ```less
+    // Hydrogen output - font size is too small
+    .hydrogen.output-bubble pre {
+      font-size: 16px !important;
+    }
+    // Hydrogen - hack for 2x images
+    .hydrogen.output-bubble .bubble-result-container img {
+      width: 50% !important
+    }
+    ```
+    - In `keymap.cson`, add:
+
+    ```cson
+    '.platform-darwin atom-text-editor':
+      'cmd-enter': 'hydrogen:run'
+      'shift-enter': 'hydrogen:run-cell'
     ```
 
-    As you might suspect, you can now run the selected line of code with
-    `command + enter`, or run the selected cell with `shift + enter`.
+7. If you haven't already, activate the virtualenv where you installed `ipython` and `ipykernel`, then open Atom with `atom .`. You must open Atom from the command line while your virtualenv is activated to use `hydrogen` – if you get a "Kernel not found error," this is usually the problem!
+7. In Atom, open (or create) a Pweave markdown file, and try running a code cell (that is, all the code enclosed by a `<<>>=` and `@`) with `shift + enter`.
 
-- In the Hydrogen Kernel Mappings, specify `{'pweave markdown': 'Python 3'}`
-rather than Python 2.
-
-And a point bears repeating: If you are employing virtual environments (and
-you should!), you must open Atom from the command line with `atom .` _after
-activating your virtual environment_.
 
 ### Install LaTeX
 
