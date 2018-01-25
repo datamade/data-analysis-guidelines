@@ -52,20 +52,13 @@ There have been a few changes since the original guide was written. So, we've
 put together an amended walk through:
 
 1. Install [Atom](http://atom.io/).
-2. If you haven't already, [install `virtualenvwrapper`](https://virtualenvwrapper.readthedocs.io/en/latest/install.html#basic-installation).
-3. Create or activate the virtualenv you'll use for your project, then
-
-    ```bash
-    pip install ipython ipykernel
-    python -m ipykernel install --user
-    ```
-4. Install these Atom packages:
+2. Install these Atom packages:
     - [`hydrogen`](https://atom.io/packages/Hydrogen) – provides inline execution of Python code
     - [`language-weave`](https://atom.io/packages/language-weave) – adds Pweave input files to languages recognized by Atom, and provides syntax highlighting
-5. Open your Atom preferences. In the left pane, select "Packages", then search for "Hydrogen" and click "Settings".
+3. Open your Atom preferences. In the left pane, select "Packages", then search for "Hydrogen" and click "Settings".
     - Under "Language Mappings", add `{"Pweave markdown": "Python 3", "Pweave LaTeX": "Python 3"}`. This lets Hydrogen know there are Python code blocks in in `.pmd` and `.ptexw` files.
     - Under "Startup Code", add `{"Python 3": "\nimport matplotlib\n%matplotlib inline"}`. This tells matplotlib figures to appear in the output when you run a code cell.
-6. In the left pane of the Preferences window, click the "Open Config Folder" button to open your Atom configuration files.
+4. In the left pane of the Preferences window, click the "Open Config Folder" button to open your Atom configuration files.
     - In `styles.less`, add:
 
     ```less
@@ -85,8 +78,14 @@ put together an amended walk through:
       'cmd-enter': 'hydrogen:run'
       'shift-enter': 'hydrogen:run-cell'
     ```
+5. If you haven't already, [install `virtualenvwrapper`](https://virtualenvwrapper.readthedocs.io/en/latest/install.html#basic-installation).
+6. In your terminal, create or activate the virtualenv you'll use for your project, then
 
-7. If you haven't already, activate the virtualenv where you installed `ipython` and `ipykernel`, then open Atom with `atom .`.
+    ```bash
+    pip install ipython ipykernel
+    python -m ipykernel install --user
+    ```
+7. In your terminal, open Atom with the `atom .` command.
     - **You must open Atom from the command line while your virtualenv is activated to use Hydrogen.** If you get a "Kernel not found error," this is usually the problem!
 8. In Atom, open (or create) a Pweave markdown file, and try creating and running a code cell (that is, all a block of code enclosed between `<<>>=` and `@`) with `shift + enter`.
     - Head on over to [Data analysis 101](/using-the-toolkit.md) for more on writing Pweave input files!
