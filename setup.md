@@ -105,6 +105,30 @@ operating system:
 - [GNU/Linux & Windows](http://www.tug.org/texlive/)
 - [OS X](www.tug.org/mactex/)
 
+#### A note on OS X Installation
+
+The [standard LaTeX distribution](www.tug.org/mactex/) (also available via Homebrew) is pretty darn big. If you prefer a smaller installation (or your internet connection is slow or unreliable), [BasicTeX](http://www.tug.org/mactex/morepackages.html) (look for `BasicTeX.pkg`) provides all the utilities you need for this pipeline.
+
+In order to use the command line utilities that come with BasicTeX, we had to add `/Library/TeX/texbin` to our PATH variable, or the setting that tells your terminal where to look for commands.
+
+To do this, open your bash profile in your favorite code editor (i.e., `subl ~/.bash_profile`) and look for a line that looks like `export PATH=foo/bar:baz:a/file/path:$PATH`.
+
+If it doesn't exist, add: `export PATH=/Library/TeX/texbin:$PATH`.
+
+If it does exist, add `/Library/TeX/texbin:` (don't forget the colon!) to the end, just before `$PATH`.
+
+Once you've added the appropriate value, save the file. Then, return to your terminal and type `source ~/.bash_profile` to load the changes.
+
+To confirm it all worked, try typing `latex` into your terminal. If you get something like this –
+
+```bash
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=latex)
+restricted \write18 enabled.
+**
+```
+
+– you're good to go! (Hit `ctrl-c` to exit.)
+
 ## Organizing your analysis
 
 Data making and analysis may live in the same repository, or an analysis
