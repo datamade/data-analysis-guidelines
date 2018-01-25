@@ -103,11 +103,11 @@ Installation is well-trodden ground. Follow the appropriate link for your
 operating system:
 
 - [GNU/Linux & Windows](http://www.tug.org/texlive/)
-- [OS X](www.tug.org/mactex/)
+- [OS X](http://www.tug.org/mactex/)
 
 #### A note on OS X Installation
 
-The [standard LaTeX distribution](www.tug.org/mactex/) (also available via Homebrew) is pretty darn big. If you prefer a smaller installation (or your internet connection is slow or unreliable), [BasicTeX](http://www.tug.org/mactex/morepackages.html) (look for `BasicTeX.pkg`) provides all the utilities you need for this pipeline.
+The [standard LaTeX distribution](http://www.tug.org/mactex/) (also available via Homebrew) is pretty darn big. If you prefer a smaller installation (or your internet connection is slow or unreliable), [BasicTeX](http://www.tug.org/mactex/morepackages.html) (look for `BasicTeX.pkg`) provides all the utilities you need for this pipeline.
 
 In order to use the command line utilities that come with BasicTeX, we had to add `/Library/TeX/texbin` to our PATH variable, or the setting that tells your terminal where to look for commands.
 
