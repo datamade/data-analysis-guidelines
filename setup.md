@@ -39,36 +39,57 @@ Still setting up? Read on.
 
 ### Configure Atom
 
-At DataMade, we all have our own preferences when it comes to code editors.
-When it comes to analysis, Atom plays nicely with `pweave` to create an
-interactive development environment that rivals [Jupyter notebooks](https://jupyter.org/) –
-without the hassle of illegible diffs and highly customized file conversion
-steps.
+At DataMade, we all have our own favorite code editor. When it comes to analysis,
+**Atom** plays nicely with `pweave` to create an interactive development environment
+that rivals [Jupyter notebooks](https://jupyter.org/) – without the hassle of
+illegible diffs and highly customized file conversion steps.
 
 The bad news is that this environment still requires some configuration. The
 good news is that one Denver data scientist [wrote an excellent guide](http://protips.maxmasnick.com/literate-python-setup-with-pweave-and-atom)
 to that configuration.
 
-A few amendments to the above walkthrough:
+There have been a few changes since the original guide was written. So, we've
+put together an amended walk through:
 
-- Skip installing `expand-region`, and don't edit your `config.cson`. Don't add
-`'cmd-shift-space': 'expand-region:expand'` to `keymap.cson`, either. Instead,
-append the following to `keymap.cson`:
+1. Install [Atom](http://atom.io/).
+2. Install these Atom packages:
+    - [`hydrogen`](https://atom.io/packages/Hydrogen) – provides inline execution of Python code
+    - [`language-weave`](https://atom.io/packages/language-weave) – adds Pweave input files to languages recognized by Atom, and provides syntax highlighting
+3. Open your Atom preferences. In the left pane, select "Packages", then search for "Hydrogen" and click "Settings".
+    - Under "Language Mappings", add `{"Pweave markdown": "Python 3", "Pweave LaTeX": "Python 3"}`. This lets Hydrogen know there are Python code blocks in in `.pmd` and `.ptexw` files.
+    - Under "Startup Code", add `{"Python 3": "\nimport matplotlib\n%matplotlib inline"}`. This tells matplotlib figures to appear in the output when you run a code cell.
+4. In the left pane of the Preferences window, click the "Open Config Folder" button to open your Atom configuration files.
+    - In `styles.less`, add:
 
+    ```less
+    // Hydrogen output - font size is too small
+    .hydrogen.output-bubble pre {
+      font-size: 16px !important;
+    }
+    // Hydrogen - hack for 2x images
+    .hydrogen.output-bubble .bubble-result-container img {
+      width: 50% !important
+    }
     ```
-    'cmd-enter': 'hydrogen:run'
-    'shift-enter': 'hydrogen:run-cell'
+    - In `keymap.cson`, add:
+
+    ```cson
+    '.platform-darwin atom-text-editor':
+      'cmd-enter': 'hydrogen:run'
+      'shift-enter': 'hydrogen:run-cell'
     ```
+5. If you haven't already, [install `virtualenvwrapper`](https://virtualenvwrapper.readthedocs.io/en/latest/install.html#basic-installation).
+6. In your terminal, create or activate the virtualenv you'll use for your project, then
 
-    As you might suspect, you can now run the selected line of code with
-    `command + enter`, or run the selected cell with `shift + enter`.
+    ```bash
+    pip install ipython ipykernel
+    python -m ipykernel install --user
+    ```
+7. In your terminal, open Atom with the `atom .` command.
+    - **You must open Atom from the command line while your virtualenv is activated to use Hydrogen.** If you get a "Kernel not found error," this is usually the problem!
+8. In Atom, open (or create) a Pweave markdown file, and try creating and running a code cell (that is, all a block of code enclosed between `<<>>=` and `@`) with `shift + enter`.
+    - Head on over to [Data analysis 101](/using-the-toolkit.md) for more on writing Pweave input files!
 
-- In the Hydrogen Kernel Mappings, specify `{'pweave markdown': 'Python 3'}`
-rather than Python 2.
-
-And a point bears repeating: If you are employing virtual environments (and
-you should!), you must open Atom from the command line with `atom .` _after
-activating your virtual environment_.
 
 ### Install LaTeX
 
@@ -81,7 +102,31 @@ Installation is well-trodden ground. Follow the appropriate link for your
 operating system:
 
 - [GNU/Linux & Windows](http://www.tug.org/texlive/)
-- [OS X](www.tug.org/mactex/)
+- [OS X](http://www.tug.org/mactex/)
+
+#### A note on OS X Installation
+
+The [standard LaTeX distribution](http://www.tug.org/mactex/) (also available via Homebrew) is pretty darn big. If you prefer a smaller installation (or your internet connection is slow or unreliable), [BasicTeX](http://www.tug.org/mactex/morepackages.html) (look for `BasicTeX.pkg`) provides all the utilities you need for this pipeline.
+
+In order to use the command line utilities that come with BasicTeX, we had to add `/Library/TeX/texbin` to our PATH variable, or the setting that tells your terminal where to look for commands.
+
+To do this, open your bash profile in your favorite code editor (i.e., `subl ~/.bash_profile`) and look for a line that looks like `export PATH=foo/bar:baz:a/file/path:$PATH`.
+
+If it doesn't exist, add: `export PATH=/Library/TeX/texbin:$PATH`.
+
+If it does exist, add `/Library/TeX/texbin:` (don't forget the colon!) to the end, just before `$PATH`.
+
+Once you've added the appropriate value, save the file. Then, return to your terminal and type `source ~/.bash_profile` to load the changes.
+
+To confirm it all worked, try typing `latex` into your terminal. If you get something like this –
+
+```bash
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=latex)
+restricted \write18 enabled.
+**
+```
+
+– you're good to go! (Hit `ctrl-c` to exit.)
 
 ## Organizing your analysis
 
