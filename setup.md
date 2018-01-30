@@ -88,7 +88,7 @@ put together an amended walk through:
 
     This will create a "kernel," or [a program that runs your code](https://jupyter-client.readthedocs.io/en/latest/kernels.html#making-kernels-for-jupyter), named for your current virtual environment. Hydrogen uses kernels to determine how to evaluate the Python you write. Installed packages are included in kernels, so you'll need different kernels for different virtual environments. Thus, you need to run `ipykernel install` each time you want to use Hydrogen from a new virtual environment.
 
-8. In Atom, create and save a Python file. To your file, add:
+8. In Atom, create and save a Python (`.py`) file. To your file, add:
 
     ```python
     print('Hello, world!')
@@ -97,7 +97,7 @@ put together an amended walk through:
     Then, press `shift + enter`. You'll see a dropdown menu with options for "Python 3", as well as "Python (name)" for each of the virtual environments you've installed a kernel for.
 
     Select the option corresponding to the virtual environment you'd like to use, then watch in awe as "Hello, world!" materializes before you!
-    - Ready to get started with `pweave`? Head on over to [Data analysis 101](/using-the-toolkit.md) to write your first code-prose mashup!
+    - Ready to get started with `pweave`? Head on over to [Data analysis 101](/using-the-toolkit.md) to write your first code-prose mash up!
 
 ### Install LaTeX
 
