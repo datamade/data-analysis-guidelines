@@ -79,17 +79,25 @@ put together an amended walk through:
       'shift-enter': 'hydrogen:run-cell'
     ```
 5. If you haven't already, [install `virtualenvwrapper`](https://virtualenvwrapper.readthedocs.io/en/latest/install.html#basic-installation).
-6. In your terminal, create or activate the virtualenv you'll use for your project, then
+6. In your terminal, create or activate the virtual environment you'll use for your project, then
 
     ```bash
     pip install ipython ipykernel
-    python -m ipykernel install --user
+    python -m ipykernel install --user --name $(basename $VIRTUAL_ENV) --display-name "Python ($(basename $VIRTUAL_ENV))"
     ```
-7. In your terminal, open Atom with the `atom .` command.
-    - **You must open Atom from the command line while your virtualenv is activated to use Hydrogen.** If you get a "Kernel not found error," this is usually the problem!
-8. In Atom, open (or create) a Pweave markdown file, and try creating and running a code cell (that is, all a block of code enclosed between `<<>>=` and `@`) with `shift + enter`.
-    - Head on over to [Data analysis 101](/using-the-toolkit.md) for more on writing Pweave input files!
 
+    This will create a "kernel," or [a program that runs your code](https://jupyter-client.readthedocs.io/en/latest/kernels.html#making-kernels-for-jupyter), named for your current virtual environment. Hydrogen uses kernels to determine how to evaluate the Python you write. Installed packages are included in kernels, so you'll need different kernels for different virtual environments. Thus, you need to run `ipykernel install` each time you want to use Hydrogen from a new virtual environment.
+
+8. In Atom, create and save a Python file. To your file, add:
+
+    ```python
+    print('Hello, world!')
+    ```
+
+    Then, press `shift + enter`. You'll see a dropdown menu with options for "Python 3", as well as "Python (name)" for each of the virtual environments you've installed a kernel for.
+
+    Select the option corresponding to the virtual environment you'd like to use, then watch in awe as "Hello, world!" materializes before you!
+    - Ready to get started with `pweave`? Head on over to [Data analysis 101](/using-the-toolkit.md) to write your first code-prose mashup!
 
 ### Install LaTeX
 
