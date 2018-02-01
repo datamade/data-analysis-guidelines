@@ -57,7 +57,7 @@ put together an amended walk through:
     - [`language-weave`](https://atom.io/packages/language-weave) – adds Pweave input files to languages recognized by Atom, and provides syntax highlighting
 3. Open your Atom preferences. In the left pane, select "Packages", then search for "Hydrogen" and click "Settings".
     - Under "Language Mappings", add `{"Pweave markdown": "Python 3", "Pweave LaTeX": "Python 3"}`. This lets Hydrogen know there are Python code blocks in in `.pmd` and `.ptexw` files.
-    - Under "Startup Code", add `{"Python 3": "\nimport matplotlib\n%matplotlib inline"}`. This tells matplotlib figures to appear in the output when you run a code cell.
+    - Under "Startup Code", add `{"Python 3": "\n%matplotlib inline\nimport matplotlib"}`. This tells matplotlib figures to appear in the output when you run a code cell.
 4. In the left pane of the Preferences window, click the "Open Config Folder" button to open your Atom configuration files.
     - In `styles.less`, add:
 
