@@ -34,7 +34,7 @@ $ pip install pweave
 `pweave` can be used as both a Python module and a command-line utility. So far,
 we've found the CLI to fit most seamlessly into our Make-driven data pipeline.
 
-For more on using `pweave`, head on over to [Data analysis 101](/using-the-toolkit.md).
+For more on using `pweave`, head on over to [Data analysis 101](/101-intro-to-pweave.md).
 Still setting up? Read on.
 
 ### Configure Atom
@@ -160,3 +160,5 @@ Either way, analysis files should generally be organized as follows:
 ├── requirements.txt
 └── Makefile
 ```
+
+If you find your analysis files are getting lengthy, check out [our sanity-saving patterns for multi-part analysis](/201-multi-part-patterns.md).
