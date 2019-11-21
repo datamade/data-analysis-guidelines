@@ -28,7 +28,7 @@ Namely, data analysis should:
   - Patterns for multi-part analysis
 - **[Appendix A](/appendix_a-latex.md) - LaTeX**
 - **[Appendix B](/appendix_b-pandas.md) - pandas**
-- **[Appendix C](https://github.com/datamade/how-to/issues/34#issue-483477936) (external issue) – `matplotlib`**
+- **[Appendix C](https://github.com/datamade/how-to/issues/34#issue-483477936) (external issue) – matplotlib**
 
 ## Examples
 
