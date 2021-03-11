@@ -1,5 +1,7 @@
 # Analyzing Data, the DataMade Way
 
+**⚠️ Deprecation warning**: *This documentation no longer represents DataMade's current best practices for data analysis. For contemporary guidance on data analysis, refer to the [`how-to`](https://github.com/datamade/how-to/tree/master/data-analysis) repo.*
+
 You've [_extracted_ and _transformed_ the data](https://github.com/datamade/data-making-guidelines).
 Now it's time to _load_ (analyze) it. Here, you'll find the principles that
 inform DataMade's approach to data analysis, as well as the tools and
